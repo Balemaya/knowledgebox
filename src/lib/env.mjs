@@ -40,7 +40,9 @@ export const env = createEnv({
   UNSD_KEY:z.string(),
   ASSEMBLYAI_API_KEY: z.string(),
   UPSTASH_REDIS_REST_URL:  z.string(),
-UPSTASH_REDIS_REST_TOKEN:  z.string()
+UPSTASH_REDIS_REST_TOKEN:  z.string(),
+POSTGRES_PRISMA_URL:  z.string().url(),
+POSTGRES_URL_NON_POOLING:  z.string().url(),
   },
 
   /**
@@ -76,7 +78,9 @@ UPSTASH_REDIS_REST_TOKEN:  z.string()
   ASSEMBLYAI_API_KEY: process.env.ASSEMBLYAI_API_KEY,
   UPSTASH_REDIS_REST_URL:  process.env.UPSTASH_REDIS_REST_URL,
   UPSTASH_REDIS_REST_TOKEN:  process.env.UPSTASH_REDIS_REST_TOKEN,
-  NODE_ENV: process.env.NODE_ENV
+  NODE_ENV: process.env.NODE_ENV,
+  POSTGRES_PRISMA_URL:  process.env.POSTGRES_PRISMA_URL,
+  POSTGRES_URL_NON_POOLING:  process.env.POSTGRES_URL_NON_POOLING,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
