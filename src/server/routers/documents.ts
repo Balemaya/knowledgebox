@@ -175,15 +175,15 @@ export const documentRouter = createTRPCRouter({
               message: "Somethingwent  wrong ",
             });
           }
-          const summary = await getSummary(docs);
-          ctx.prisma.document.update({
-            where: {
-              id: document.id,
-            },
-            data: {
-              summary,
-            },
-          });
+          // const summary = await getSummary(docs);
+          // ctx.prisma.document.update({
+          //   where: {
+          //     id: document.id,
+          //   },
+          //   data: {
+          //     summary,
+          //   },
+          // });
           await pineconeEmbedAndStore(pineconeClient, docs);
           return document;
         }
