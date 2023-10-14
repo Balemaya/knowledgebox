@@ -1,0 +1,120 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+  
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  credits       Int       @default(0)
+  isPro         Boolean   @default(false)
+  accounts      Account[]
+  sessions      Session[]
+
+  Document Document[]
+  Message  Message[]
+  QAPairs  QAPairs[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Document {
+  id        String    @id @default(cuid())
+  name      String
+  summary String ?
+  key       String    @unique
+  type      String
+  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  isDeleted Boolean   @default(false)
+  userId    String
+  Message   Message[]
+  QAPairs   QAPairs[]
+}
+
+model Subscription {
+  id           String @id
+  product_id   Int
+  product_name String
+  variant_id   Int
+  variant_name String
+
+  status     String
+  user_email String
+}
+
+enum ChatRole {
+  user
+  assistant
+  system
+  function
+}
+
+model Message {
+  id       String   @id @default(cuid())
+  role     ChatRole
+  content  String
+  sources  String[]
+  user     User     @relation(fields: [userId], references: [id])
+  document Document @relation(fields: [documentId], references: [id])
+
+  userId     String
+  documentId String
+  createdAt  DateTime @default(now())
+}
+
+model QAPairs {
+  id         String   @id @default(cuid())
+  question   String
+  answer     String
+  document   Document @relation(fields: [documentId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+  documentId String
+  userId     String
+}
+
+enum role {
+  assistant
+  user
+}
