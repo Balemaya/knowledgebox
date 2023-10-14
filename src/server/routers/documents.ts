@@ -115,6 +115,7 @@ export const documentRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       try {
         const userId = ctx.session.user.id;
+        'starting...'
         const document = await ctx.prisma.document.create({
           data: {
             key: input.key,
@@ -123,6 +124,7 @@ export const documentRouter = createTRPCRouter({
             type: input.type,
           },
         });
+        "done..."
         const extention = path.extname(input.name).slice(1);
         const isPdf = extention === "pdf";
         if (isPdf) {
