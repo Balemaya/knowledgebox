@@ -451,7 +451,9 @@ Total output will be a summary of thetranscript of a podcast. SUMMARY: `;
       })
     )
     .query(async ({ ctx, input }) => {
+      
       const userId = ctx.session.user.id;
+      console.log(userId)
       const { skip, take } = input;
       const docs = await ctx.prisma.document.findMany({
         where: {
