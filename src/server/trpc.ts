@@ -12,7 +12,7 @@ import { type FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
 import { getServerSession, type Session } from "next-auth";
 import superjson from "superjson";
 import { ZodError } from "zod";
-import { authOptions, getServerAuthSession } from "@/server/auth";
+import { authOptions } from "@/server/auth";
 import { prisma } from "@/server/db";
 
 /**
@@ -108,6 +108,7 @@ export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
+  console.log('got here!')
   if (!ctx.session?.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
