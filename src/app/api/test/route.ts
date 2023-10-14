@@ -1,12 +1,9 @@
-import { YoutubeLoader } from "langchain/document_loaders/web/youtube";
+import {AudioTranscriptParagraphsLoader} from "langchain/document_loaders/web/assemblyai";
 import { NextResponse } from "next/server";
 
 const handler = (req: Request) => {
     console.log("working....")
-    const loader = YoutubeLoader.createFromUrl("", {
-        language: "en",
-        addVideoInfo: true,
-      });
+    const loader = AudioTranscriptParagraphsLoader
   
     return NextResponse.json({greetings: "hi"})
 }
